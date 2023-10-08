@@ -1,5 +1,6 @@
 package com.tienda.oferton.controllers;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,5 +38,11 @@ public class ProductoController {
         Optional<Producto> productoData = productoService.getById(id);
         return productoData.map(producto -> new ResponseEntity<>(producto, HttpStatus.OK))
                          .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    }
+
+    @GetMapping
+    public ResponseEntity<List<Producto>> getProductos() {
+        List<Producto> productos = productoService.getAll();
+        return new ResponseEntity<>(productos, HttpStatus.OK);
     }
 }
