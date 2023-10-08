@@ -1,0 +1,137 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: OFERTATON-GRANCOLOMBIANO API
+  description: API para la aplicación e-commerce OFERTATON-GRANCOLOMBIANO.
+
+paths:
+  /usuarios:
+    post:
+      summary: Registrar un nuevo usuario.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Usuario'
+      responses:
+        '201':
+          description: Usuario creado exitosamente.
+
+  /productos:
+    get:
+      summary: Obtener lista de productos.
+      responses:
+        '200':
+          description: Lista de productos.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Producto'
+
+  /productos/{productoId}:
+    get:
+      summary: Obtener producto por ID.
+      parameters:
+        - name: productoId
+          in: path
+          required: true
+          description: ID del producto.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Detalles del producto.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Producto'
+
+  /pedidos:
+    post:
+      summary: Crear un nuevo pedido.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Pedido'
+      responses:
+        '201':
+          description: Pedido creado exitosamente.
+
+components:
+  schemas:
+    Usuario:
+      type: object
+      properties:
+        nombre:
+          type: string
+          description: Nombre del usuario.
+        correo:
+          type: string
+          description: Correo electrónico del usuario.
+        contrasena:
+          type: string
+          description: Contraseña del usuario.
+
+    Producto:
+      type: object
+      properties:
+        productoId:
+          type: string
+          description: ID único del producto.
+        nombre:
+          type: string
+          description: Nombre del producto.
+        precio:
+          type: number
+          description: Precio del producto.
+        descripcion:
+          type: string
+          description: Descripción del producto.
+        categoria:
+          type: string
+          description: Categoría del producto.
+        imagen:
+          type: string
+          description: URL de la imagen del producto.
+
+    Pedido:
+      type: object
+      properties:
+        productos:
+          type: array
+          items:
+            type: object
+            properties:
+              productoId:
+                type: string
+                description: ID del producto.
+              cantidad:
+                type: integer
+                description: Cantidad del producto.
+        correoUsuario:
+          type: string
+          description: Correo electrónico del usuario que realiza el pedido.
+        total:
+          type: number
+          description: Total a pagar.
+        metodoPago:
+          type: string
+          description: Método de pago seleccionado.
+        datosEntrega:
+          type: object
+          properties:
+            direccion:
+              type: string
+            indicaciones:
+              type: string
+            nombreReceptor:
+              type: string
+            telefono:
+              type: string
+          description: Información de entrega del pedido.
+
